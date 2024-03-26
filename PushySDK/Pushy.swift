@@ -13,7 +13,6 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
     public static var shared: Pushy?
     
     private var mqtt: PushyMQTT?
-    private var appDelegate: NSApplicationDelegate
     private var application: NSApplication
     private var registrationHandler: ((Error?, String) -> Void)?
     private var notificationHandler: (([AnyHashable : Any]) -> Void)?
@@ -23,7 +22,6 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
     @objc public init(_ application: NSApplication) {
         // Store application and app delegate for later
         self.application = application
-        self.appDelegate = application.delegate!
         
         // Initialize Pushy instance before accessing the self object
         super.init()
@@ -80,7 +78,7 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
         self.notificationOptions = options
     }
     
-    // Register for push notifications (called from AppDelegate.didFinishLaunchingWithOptions)
+    // Register for push notifications
     @objc public func register(_ registrationHandler: @escaping (Error?, String) -> Void) {
         // Default options
         var options: UNAuthorizationOptions = [.badge, .alert, .sound]
