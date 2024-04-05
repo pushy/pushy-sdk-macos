@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-  name: "Pushy",
+  name: "PushyMacOS",
   platforms: [
     .macOS(.v10_15)
   ],
   products: [
     .library(
-      name: "Pushy",
-      targets: ["Pushy"]
+      name: "PushyMacOS",
+      targets: ["PushyMacOS"]
     )
   ],
   dependencies: [
@@ -19,7 +19,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Pushy",
+      name: "PushyMacOS",
       dependencies: ["CocoaMQTT"],
       path: "PushySDK"
     )
