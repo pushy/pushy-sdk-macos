@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -12,15 +12,16 @@ let package = Package(
     .library(
       name: "Pushy",
       targets: ["Pushy"]
-    ),
+    )
+  ],
+  dependencies: [
+      .package(url: "https://github.com/emqx/CocoaMQTT", from: "2.1.0"),
   ],
   targets: [
     .target(
       name: "Pushy",
-      path: "PushySDK",
-      resources: [
-        .process("Resources/PrivacyInfo.xcprivacy")
-      ]
+      dependencies: ["CocoaMQTT"],
+      path: "PushySDK"
     )
   ]
 )
