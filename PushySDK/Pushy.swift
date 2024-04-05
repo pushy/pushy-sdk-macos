@@ -7,7 +7,12 @@
 //
 
 import AppKit
-import UserNotifications
+
+#if canImport(UserNotifications)
+    import UserNotifications
+#else
+    public protocol UNUserNotificationCenterDelegate {}
+#endif
 
 public class Pushy : NSObject, UNUserNotificationCenterDelegate {
     public static var shared: Pushy?
@@ -53,8 +58,11 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
         // Save the handler for later
         self.notificationHandler = notificationHandler
         
-        // Set delegate to hook into userNotificationCenter callbacks
-        UNUserNotificationCenter.current().delegate = self
+        // Ensure we have access to the UserNotifications framework
+        #if canImport(UserNotifications)
+            // Set delegate to hook into userNotificationCenter callbacks
+            UNUserNotificationCenter.current().delegate = self
+        #endif
     }
     
     // Define a notification click handler to invoke when user taps a notification
@@ -63,14 +71,17 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
         self.notificationClickListener = notificationClickListener
     }
     
-    // Notification click, invoke notification click listener
-    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        // Call the notification click listener, if defined
-        Pushy.shared?.notificationClickListener?(response.notification.request.content.userInfo)
-        
-        // Finished processing notification
-        completionHandler()
-    }
+    // Ensure we have access to the UserNotifications framework
+    #if canImport(UserNotifications)
+        // Notification click, invoke notification click listener
+        public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+            // Call the notification click listener, if defined
+            Pushy.shared?.notificationClickListener?(response.notification.request.content.userInfo)
+            
+            // Finished processing notification
+            completionHandler()
+        }
+    #endif
     
     // Make it possible to pass in custom notification options ([.badge, .sound, .alert, ...])
     @objc public func setCustomNotificationOptions(_ options:Any) {
@@ -80,19 +91,22 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
     
     // Register for push notifications
     @objc public func register(_ registrationHandler: @escaping (Error?, String) -> Void) {
-        // Default options
-        var options: UNAuthorizationOptions = [.badge, .alert, .sound]
+        // Ensure we have access to the UserNotifications framework
+        #if canImport(UserNotifications)
+            // Default options
+            var options: UNAuthorizationOptions = [.badge, .alert, .sound]
+            
+            // Custom options passed in?
+            if let customOptions = notificationOptions {
+                options = customOptions as! UNAuthorizationOptions
+            }
         
-        // Custom options passed in?
-        if let customOptions = notificationOptions {
-            options = customOptions as! UNAuthorizationOptions
-        }
-
-        // Request macOS Notification Center permission from user
-        UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, error) in
-            // Ignore permission grant/rejection for now
-            // as the notification handler will still be invoked if permission denied
-        }
+            // Request macOS Notification Center permission from user
+            UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, error) in
+                // Ignore permission grant/rejection for now
+                // as the notification handler will still be invoked if permission denied
+            }
+        #endif
         
         // Save the registration handler for later
         self.registrationHandler = registrationHandler

@@ -7,7 +7,6 @@
 //
 
 import CocoaMQTT
-import UserNotifications
 
 public class PushyMQTT: CocoaMQTTDelegate {
     // MQTT connection handle
