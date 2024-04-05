@@ -7,6 +7,7 @@
 //
 
 import CocoaMQTT
+import Foundation
 
 public class PushyMQTT: CocoaMQTTDelegate {
     // MQTT connection handle
