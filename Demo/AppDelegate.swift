@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let pushy = Pushy(NSApplication.shared)
         
         // Replace with your Pushy App ID
-        pushy.setAppId("YOUR_APP_ID")
+        pushy.setAppId("550ee57c5b5d72117f51e801")
         
         // Register the device for push notifications
         pushy.register({ (error, deviceToken) in
