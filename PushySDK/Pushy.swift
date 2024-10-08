@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import CocoaMQTT
 
 #if canImport(UserNotifications)
     import UserNotifications
@@ -51,6 +52,38 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
             // Connect MQTT client
             mqtt!.connect()
         }
+    }
+    
+    // Device connectivity check
+    @objc public func isConnected() -> Bool {
+        // Check if device is already registered
+        if !isRegistered() {
+            return false
+        }
+        
+        // MQTT not initialized?
+        if mqtt == nil {
+            return false
+        }
+        
+        // Query connection state
+        return mqtt!.getConnectionState() == CocoaMQTTConnState.connected
+    }
+    
+    // Device connectivity check
+    @objc public func isConnecting() -> Bool {
+        // Check if device is already registered
+        if !isRegistered() {
+            return false
+        }
+        
+        // MQTT not initialized?
+        if mqtt == nil {
+            return false
+        }
+        
+        // Query connection state
+        return mqtt!.getConnectionState() == CocoaMQTTConnState.connecting
     }
     
     // Define a notification handler to invoke when device receives a notification
