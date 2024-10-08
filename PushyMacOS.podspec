@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name                  = 'PushyMacOS'
-    s.version               = '1.0.3'
+    s.version               = '1.0.4'
     s.summary               = 'The official Pushy SDK for native macOS apps.'
     s.description           = 'Pushy is the most reliable push notification gateway, perfect for real-time, mission-critical applications.'
     s.homepage              = 'https://pushy.me/'
