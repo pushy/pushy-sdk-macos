@@ -66,6 +66,16 @@ public class PushyMQTT: CocoaMQTTDelegate {
         }
     }
     
+    public func getConnectionState() -> CocoaMQTTConnState {
+        // MQTT not initialized?
+        if mqtt == nil {
+            return CocoaMQTTConnState.disconnected
+        }
+        
+        // Return connection state
+        return mqtt!.connState
+    }
+    
     public func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         // Log successful connection
         print("PushyMQTT: Connected successfully")
