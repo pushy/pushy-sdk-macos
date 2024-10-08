@@ -36,21 +36,21 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
             Pushy.shared = self
         }
         
-        // Check if device is already registered
-        if isRegistered() {
-            // Listen for notifications
-            self.listen()
-        }
+        // Listen for notifications
+        self.listen()
     }
     
-    private func listen() {
-        // Instantiate MQTT client
-        if mqtt == nil {
-            mqtt = PushyMQTT()
+    @objc public func listen() {
+        // Check if device is already registered
+        if isRegistered() {
+            // Instantiate MQTT client
+            if mqtt == nil {
+                mqtt = PushyMQTT()
+            }
+            
+            // Connect MQTT client
+            mqtt!.connect()
         }
-        
-        // Connect MQTT client
-        mqtt!.connect()
     }
     
     // Define a notification handler to invoke when device receives a notification
