@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
     s.author                = { 'Pushy' => 'contact@pushy.me' }
     s.license               = { :type => 'Apache-2.0', :file => 'LICENSE' }
 
-    s.platform              = :osx
+    s.platform              = :osx2
     s.source                = { :git => 'https://github.com/pushy/pushy-sdk-macos.git', :tag => s.version }
     s.source_files          = 'PushySDK/*.swift'
     s.swift_version         = '5.0'
