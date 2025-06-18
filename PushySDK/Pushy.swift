@@ -54,6 +54,11 @@ public class Pushy : NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
+    @objc public func disconnect() {
+        // Disconnect MQTT client
+        mqtt?.disconnect()
+    }
+    
     // Device connectivity check
     @objc public func isConnected() -> Bool {
         // Check if device is already registered

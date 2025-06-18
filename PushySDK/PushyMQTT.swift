@@ -59,11 +59,8 @@ public class PushyMQTT: CocoaMQTTDelegate {
         // Log network extension stop() called
         print("PushyMQTT: Disconnecting...")
         
-        // If connected, disconnect forcibly
-        if (mqtt?.connState == CocoaMQTTConnState.connected) {
-            mqtt?.disconnect()
-            mqtt = nil
-        }
+        mqtt?.disconnect()
+        mqtt = nil
     }
     
     public func getConnectionState() -> CocoaMQTTConnState {
